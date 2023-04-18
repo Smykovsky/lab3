@@ -9,6 +9,9 @@ module pl.smyk.lab3 {
     requires mysql.connector.java;
     requires java.persistence;
     requires java.naming;
+    requires java.sql;
+    requires lombok;
+    requires org.mapstruct.processor;
 
     opens pl.smyk.lab3 to javafx.fxml;
     exports pl.smyk.lab3;
@@ -16,5 +19,4 @@ module pl.smyk.lab3 {
     exports pl.smyk.lab3.utils;
     exports pl.smyk.lab3.model;
     opens pl.smyk.lab3.controller to javafx.fxml;
-    opens pl.smyk.lab3.utils to org.hibernate.orm.core;
 }
