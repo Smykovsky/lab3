@@ -5,15 +5,10 @@ import org.hibernate.*;
 import pl.smyk.lab3.model.Code;
 import pl.smyk.lab3.utils.HibernateUtil;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CodeDAO {
