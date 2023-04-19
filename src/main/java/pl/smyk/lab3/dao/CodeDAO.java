@@ -1,5 +1,6 @@
 package pl.smyk.lab3.dao;
 
+import javafx.scene.control.Alert;
 import org.hibernate.*;
 import pl.smyk.lab3.model.Code;
 import pl.smyk.lab3.utils.HibernateUtil;
@@ -25,28 +26,36 @@ public class CodeDAO {
     public void loadData() {
         Session session = null;
         String record = null;
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\kamil.smyk\\Pulpit\\kody.csv"));
-            reader.readLine();
-            session = HibernateUtil.getSessionFactory().openSession();
-            session.beginTransaction();
-            while ((record = reader.readLine()) != null) {
-                String[] data = record.split(";");
-                Code code = new Code();
-                code.setPostCode(data[0]);
-                code.setAdress(data[1]);
-                code.setPlace(data[2]);
-                code.setVoivoship(data[3]);
-                code.setCounty(data[4]);
-                session.save(code);
+        if (!getAll().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("WARNING");
+            alert.setContentText("Data can not be entered into database because already has data entered!");
+            alert.show();
+        } else {
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\kamil.smyk\\Pulpit\\kody.csv"));
+                reader.readLine();
+                session = HibernateUtil.getSessionFactory().openSession();
+                session.beginTransaction();
+                while ((record = reader.readLine()) != null) {
+                    String[] data = record.split(";");
+                    Code code = new Code();
+                    code.setPostCode(data[0]);
+                    code.setAdress(data[1]);
+                    code.setPlace(data[2]);
+                    code.setVoivoship(data[3]);
+                    code.setCounty(data[4]);
+                    session.save(code);
 
+                }
+                session.getTransaction().commit();
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-            session.getTransaction().commit();
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
+
     }
 
     public List<Code> getAll() {
