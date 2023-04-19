@@ -19,4 +19,5 @@ module pl.smyk.lab3 {
     exports pl.smyk.lab3.utils;
     exports pl.smyk.lab3.model;
     opens pl.smyk.lab3.controller to javafx.fxml;
+    opens pl.smyk.lab3.model to org.hibernate.orm.core;
 }

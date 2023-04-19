@@ -9,7 +9,8 @@
         <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/codes</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">admin</property>
-        <property name="hbm2ddl.auto">create-drop</property>
+        <property name="hbm2ddl.auto">update</property>
+        <property name="show_sql">true</property>
         <mapping class="pl.smyk.lab3.model.Code"/>
     </session-factory>
 </hibernate-configuration>

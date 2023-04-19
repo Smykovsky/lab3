@@ -12,15 +12,15 @@ import javax.persistence.*;
 @AllArgsConstructor @NoArgsConstructor
 public class Code {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
+    private Long id;
     @Column(name = "post_code")
-    public String postCode;
+    private String postCode;
     @Column(name = "adress")
-    public String adress;
-    @Column(name = "palce")
-    public String place;
+    private String adress;
+    @Column(name = "place")
+    private String place;
     @Column(name = "voivoship")
-    public String voivoship;
+    private String voivoship;
     @Column(name = "county")
-    public String county;
+    private String county;
 }
