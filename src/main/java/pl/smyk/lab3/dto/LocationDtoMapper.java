@@ -1,6 +1,5 @@
 package pl.smyk.lab3.dto;
 
-import pl.smyk.lab3.model.Code;
 import pl.smyk.lab3.model.Location;
 
 public class LocationDtoMapper {

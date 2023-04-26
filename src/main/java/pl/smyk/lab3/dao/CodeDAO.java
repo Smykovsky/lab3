@@ -85,4 +85,42 @@ public class CodeDAO {
         List<Code> result = query.getResultList();
         return result;
     }
+
+    public void delete(Long id) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Code entityToDelete = session.get(Code.class, id);
+            session.delete(entityToDelete);
+            transaction.commit();
+        } catch (HibernateException e) {
+            if (transaction != null) transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
+
+    public void update(Long id, String postCode, String adress, String place, String voivoship, String county, String comments) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Code codeToUpdate = session.get(Code.class, id);
+            codeToUpdate.setPostCode(postCode);
+            codeToUpdate.setAdress(adress);
+            codeToUpdate.setPlace(place);
+            codeToUpdate.setVoivoship(voivoship);
+            codeToUpdate.setCounty(county);
+            codeToUpdate.setComments(comments);
+            session.update(codeToUpdate);
+            transaction.commit();
+        } catch (HibernateException e) {
+            if (transaction != null) transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
 }

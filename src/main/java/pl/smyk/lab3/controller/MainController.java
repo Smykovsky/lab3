@@ -9,6 +9,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import pl.smyk.lab3.dao.CodeDAO;
 import pl.smyk.lab3.dto.LocationDTO;
 import pl.smyk.lab3.dto.LocationDtoMapper;
@@ -16,18 +18,19 @@ import pl.smyk.lab3.model.Code;
 import pl.smyk.lab3.model.Location;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.Stream;
-
+import java.util.stream.Collectors;
 
 public class MainController implements Initializable {
     private CodeDAO codeDAO;
-    private LocationDtoMapper locationDtoMapper;
     @FXML
     private TableColumn<Code, String> adress;
     @FXML
     private TextField adressField;
+    @FXML
+    private TextField commentsField;
     @FXML
     private TableColumn<Code, String> county;
     @FXML
@@ -49,15 +52,19 @@ public class MainController implements Initializable {
     @FXML
     private TextField voivoshipField;
     @FXML
-    private TableView<Location> locationTable;
+    private TableColumn<Code, String> comments;
     @FXML
-    private TableColumn<Location, Long> locationId;
+    private TableView<LocationDTO> locationTable;
     @FXML
-    private TableColumn<Location, String> name;
+    private TableColumn<LocationDTO, Long> locationId;
     @FXML
-    private TableColumn<Location, String> description;
+    private TableColumn<LocationDTO, String> name;
     @FXML
-    private TableColumn<Location, Long> codeId;
+    private TableColumn<LocationDTO, String> description;
+    @FXML
+    private TableColumn<LocationDTO, Long> codeId;
+    @FXML
+    private TextField codeIdEditField;
     @FXML
     private TextField postCodeEditField;
     @FXML
@@ -104,21 +111,46 @@ public class MainController implements Initializable {
         return listByCriteria;
     }
 
+    @FXML
+    private void deleteById() {
+        codeDAO.delete(Long.parseLong(codeIdEditField.getText()));
+        showCodes();
+    }
+
+    @FXML
+    private void update() {
+        codeDAO.update(
+                Long.parseLong(codeIdEditField.getText()),
+                postCodeEditField.getText(),
+                adressEditField.getText(),
+                placeEditField.getText(),
+                voivoshipEditField.getText(),
+                countyEditField.getText(),
+                commentsEditField.getText());
+        showCodes();
+    }
+
     public void rowClickEvent() {
         tableView.setOnMouseClicked(event -> {
             if (event.getClickCount() == 1) {
                 Code selectedItem = tableView.getSelectionModel().getSelectedItem();
                 if (selectedItem != null) {
-                    tableView.getItems().setAll(selectedItem);
-
+                    LocationDtoMapper mapper = new LocationDtoMapper();
                     List<Location> locationList = selectedItem.getLocationList();
-                    locationTable.getItems().setAll(locationList);
+                    List<LocationDTO> dtos = new ArrayList<>();
+                    for (Location location : locationList) {
+                        LocationDTO dto = mapper.map(location);
+                        dtos.add(dto);
+                    }
 
+                    locationTable.getItems().setAll(dtos);
+                    codeIdEditField.setText(selectedItem.getId().toString());
                     postCodeEditField.setText(selectedItem.getPostCode());
                     adressEditField.setText(selectedItem.getAdress());
                     placeEditField.setText(selectedItem.getPlace());
                     voivoshipEditField.setText(selectedItem.getPlace());
                     countyEditField.setText(selectedItem.getCounty());
+                    commentsEditField.setText(selectedItem.getComments());
                 }
             }
         });
@@ -135,10 +167,10 @@ public class MainController implements Initializable {
             throw new RuntimeException(e);
         }
         locationTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        locationId.setCellValueFactory(new PropertyValueFactory<Location, Long>("id"));
-        name.setCellValueFactory(new PropertyValueFactory<Location, String>("name"));
-        description.setCellValueFactory(new PropertyValueFactory<Location, String>("description"));
-        codeId.setCellValueFactory(new PropertyValueFactory<Location, Long>("code_id"));
+        locationId.setCellValueFactory(new PropertyValueFactory<LocationDTO, Long>("id"));
+        name.setCellValueFactory(new PropertyValueFactory<LocationDTO, String>("name"));
+        description.setCellValueFactory(new PropertyValueFactory<LocationDTO, String>("description"));
+        codeId.setCellValueFactory(new PropertyValueFactory<LocationDTO, Long>("codeId"));
 
 
         tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -148,6 +180,7 @@ public class MainController implements Initializable {
         place.setCellValueFactory(new PropertyValueFactory<>("place"));
         voivoship.setCellValueFactory(new PropertyValueFactory<>("voivoship"));
         county.setCellValueFactory(new PropertyValueFactory<>("county"));
+        comments.setCellValueFactory(new PropertyValueFactory<>("comments"));
     }
 
     @FXML
@@ -159,6 +192,7 @@ public class MainController implements Initializable {
         place.setCellValueFactory(new PropertyValueFactory<Code, String>("place"));
         voivoship.setCellValueFactory(new PropertyValueFactory<Code, String>("voivoship"));
         county.setCellValueFactory(new PropertyValueFactory<Code, String>("county"));
+        comments.setCellValueFactory(new PropertyValueFactory<Code, String>("comments"));
 
         codes = loadCodes();
 

@@ -22,12 +22,13 @@
       </Text>
       <TableView fx:id="tableView" layoutY="35.0" prefHeight="565.0" prefWidth="600.0">
         <columns>
-          <TableColumn fx:id="id" prefWidth="100.0" text="Id" />
-          <TableColumn fx:id="postCode" prefWidth="100.0" text="Post code" />
-            <TableColumn fx:id="adress" prefWidth="100.0" text="Adress" />
-            <TableColumn fx:id="place" prefWidth="100.0" text="Place" />
-            <TableColumn fx:id="voivoship" prefWidth="100.0" text="Voivoship" />
-            <TableColumn fx:id="county" prefWidth="100.0" text="County" />
+          <TableColumn fx:id="id" prefWidth="85.7" text="Id" />
+          <TableColumn fx:id="postCode" prefWidth="85.7" text="Post code" />
+            <TableColumn fx:id="adress" prefWidth="85.7" text="Adress" />
+            <TableColumn fx:id="place" prefWidth="85.7" text="Place" />
+            <TableColumn fx:id="voivoship" prefWidth="85.7" text="Voivoship" />
+            <TableColumn fx:id="county" prefWidth="85.7" text="County" />
+            <TableColumn fx:id="comments" prefWidth="85.7" text="Comments" />
         </columns>
       </TableView>
       <VBox layoutX="605.0" layoutY="35.0" prefHeight="565.0" prefWidth="188.0" spacing="5.0">
@@ -74,6 +75,15 @@
                </font>
             </Text>
             <TextField fx:id="countyField" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Comments">
+               <font>
+                  <Font name="Times New Roman" size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Text>
+            <TextField fx:id="commentsField" />
             <Button mnemonicParsing="false" onAction="#findByCriteria" prefHeight="25.0" prefWidth="188.0" text="SEARCH">
                <VBox.margin>
                   <Insets top="100.0" />
@@ -97,7 +107,7 @@
             <Insets bottom="20.0" />
          </padding>
       </VBox>
-      <TableView fx:id="locationTable" layoutX="807.0" layoutY="239.0" prefHeight="362.0" prefWidth="350.0">
+      <TableView fx:id="locationTable" layoutX="807.0" layoutY="277.0" prefHeight="324.0" prefWidth="350.0">
         <columns>
           <TableColumn fx:id="locationId" prefWidth="87.5" text="locationId" />
           <TableColumn fx:id="name" prefWidth="87.5" text="Name" />
@@ -106,17 +116,17 @@
         </columns>
       </TableView>
       <Line endX="-46.0" endY="461.5" layoutX="847.0" layoutY="132.0" startX="-46.0" startY="-123.7265625" />
-      <Text layoutX="809.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Post code" wrappingWidth="188.13671875">
+      <Text layoutX="809.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Post code" wrappingWidth="188.13671875">
          <font>
             <Font name="Times New Roman" size="14.0" />
          </font>
       </Text>
-      <Text layoutX="809.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adress" wrappingWidth="188.13671875">
+      <Text layoutX="809.0" layoutY="128.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adress" wrappingWidth="188.13671875">
          <font>
             <Font name="Times New Roman" size="14.0" />
          </font>
       </Text>
-      <Text layoutX="809.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Place" wrappingWidth="188.13671875">
+      <Text layoutX="809.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Place" wrappingWidth="188.13671875">
          <font>
             <Font name="Times New Roman" size="14.0" />
          </font>
@@ -131,18 +141,18 @@
             <Font name="Times New Roman" size="14.0" />
          </font>
       </Text>
-      <Text layoutX="990.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Comments" wrappingWidth="188.13671875">
+      <Text layoutX="990.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Comments" wrappingWidth="188.13671875">
          <font>
             <Font name="Times New Roman" size="14.0" />
          </font>
       </Text>
-      <TextField fx:id="postCodeEditField" layoutX="808.0" layoutY="28.0" prefHeight="25.0" prefWidth="160.0" />
-      <TextField fx:id="adressEditField" layoutX="808.0" layoutY="79.0" prefWidth="160.0" />
-      <TextField fx:id="placeEditField" layoutX="807.0" layoutY="132.0" prefWidth="160.0" />
+      <TextField fx:id="postCodeEditField" layoutX="808.0" layoutY="80.0" prefHeight="25.0" prefWidth="160.0" />
+      <TextField fx:id="adressEditField" layoutX="808.0" layoutY="131.0" prefWidth="160.0" />
+      <TextField fx:id="placeEditField" layoutX="807.0" layoutY="184.0" prefWidth="160.0" />
       <TextField fx:id="voivoshipEditField" layoutX="990.0" layoutY="28.0" prefWidth="160.0" />
       <TextField fx:id="countyEditField" layoutX="990.0" layoutY="79.0" prefWidth="160.0" />
-      <TextField fx:id="commentsEditField" layoutX="989.0" layoutY="132.0" prefWidth="160.0" />
-      <Button fx:id="deleteButton" layoutX="877.0" layoutY="176.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0">
+      <TextField fx:id="commentsEditField" layoutX="989.0" layoutY="130.0" prefWidth="160.0" />
+      <Button fx:id="deleteButton" layoutX="875.0" layoutY="223.0" mnemonicParsing="false" onAction="#deleteById" prefHeight="25.0" prefWidth="25.0">
          <graphic>
             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -151,7 +161,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="editButton" layoutX="1014.0" layoutY="176.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0">
+      <Button fx:id="editButton" layoutX="1014.0" layoutY="223.0" mnemonicParsing="false" onAction="#update" prefHeight="25.0" prefWidth="25.0">
          <graphic>
             <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -160,5 +170,11 @@
             </ImageView>
          </graphic>
       </Button>
+      <Text layoutX="809.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Id" wrappingWidth="188.13671875">
+         <font>
+            <Font name="Times New Roman" size="14.0" />
+         </font>
+      </Text>
+      <TextField fx:id="codeIdEditField" layoutX="808.0" layoutY="29.0" prefHeight="25.0" prefWidth="160.0" />
    </children>
 </AnchorPane>

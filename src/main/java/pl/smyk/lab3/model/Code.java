@@ -24,6 +24,8 @@ public class Code {
     private String voivoship;
     @Column(name = "county")
     private String county;
+    @Column(name = "comments")
+    private String comments;
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "code")
     private List<Location> locationList;
 }

@@ -12,12 +12,15 @@ module pl.smyk.lab3 {
     requires java.sql;
     requires lombok;
     requires org.mapstruct.processor;
+    requires modelmapper;
 
     opens pl.smyk.lab3 to javafx.fxml;
     exports pl.smyk.lab3;
     exports pl.smyk.lab3.controller;
     exports pl.smyk.lab3.utils;
     exports pl.smyk.lab3.model;
+    exports pl.smyk.lab3.dto;
     opens pl.smyk.lab3.controller to javafx.fxml;
     opens pl.smyk.lab3.model to org.hibernate.orm.core;
+    opens pl.smyk.lab3.dto to modelmapper;
 }
