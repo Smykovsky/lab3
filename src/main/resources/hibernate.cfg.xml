@@ -12,5 +12,6 @@
         <property name="hbm2ddl.auto">update</property>
         <property name="show_sql">true</property>
         <mapping class="pl.smyk.lab3.model.Code"/>
+        <mapping class="pl.smyk.lab3.model.Location"/>
     </session-factory>
 </hibernate-configuration>

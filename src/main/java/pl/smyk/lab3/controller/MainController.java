@@ -9,7 +9,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import org.hibernate.Session;
 import pl.smyk.lab3.dao.CodeDAO;
 import pl.smyk.lab3.model.Code;
 
@@ -56,7 +55,6 @@ public class MainController implements Initializable {
 
     @FXML
     private ObservableList<Code> loadCodes() {
-        Session session = null;
         List<Code> codeList;
         try {
             codeList = codeDAO.getAll();
@@ -78,16 +76,19 @@ public class MainController implements Initializable {
         return listByCriteria;
     }
 
-    @FXML List<Code> findByPlace() {
-        List<Code> listByPlace = codeDAO.getByPlace(placeField.getText());
-        System.out.println(listByPlace);
-        tableView.getItems().setAll(listByPlace);
-        return listByPlace;
-    }
-
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        //wyświetlanie danych po kliknięciu w wiersz tabeli
+        tableView.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 1) {
+                Code selectedItem = tableView.getSelectionModel().getSelectedItem();
+                if (selectedItem != null) {
+                    System.out.println(selectedItem.getLocationList());
+                    tableView.getItems().setAll(selectedItem);
+                }
+            }
+        });
+
         try {
             codeDAO = new CodeDAO();
             showCodes();

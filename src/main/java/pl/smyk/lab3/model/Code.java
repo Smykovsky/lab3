@@ -6,8 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
-@Entity(name = "Code")
+@Entity
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
 public class Code {
@@ -23,4 +24,6 @@ public class Code {
     private String voivoship;
     @Column(name = "county")
     private String county;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "code")
+    private List<Location> locationList;
 }
