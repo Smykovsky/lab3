@@ -10,15 +10,20 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import pl.smyk.lab3.dao.CodeDAO;
+import pl.smyk.lab3.dto.LocationDTO;
+import pl.smyk.lab3.dto.LocationDtoMapper;
 import pl.smyk.lab3.model.Code;
+import pl.smyk.lab3.model.Location;
 
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Stream;
 
 
 public class MainController implements Initializable {
     private CodeDAO codeDAO;
+    private LocationDtoMapper locationDtoMapper;
     @FXML
     private TableColumn<Code, String> adress;
     @FXML
@@ -43,6 +48,29 @@ public class MainController implements Initializable {
     private TableColumn<Code, String> voivoship;
     @FXML
     private TextField voivoshipField;
+    @FXML
+    private TableView<Location> locationTable;
+    @FXML
+    private TableColumn<Location, Long> locationId;
+    @FXML
+    private TableColumn<Location, String> name;
+    @FXML
+    private TableColumn<Location, String> description;
+    @FXML
+    private TableColumn<Location, Long> codeId;
+    @FXML
+    private TextField postCodeEditField;
+    @FXML
+    private TextField adressEditField;
+    @FXML
+    private TextField placeEditField;
+    @FXML
+    private TextField voivoshipEditField;
+    @FXML
+    private TextField countyEditField;
+    @FXML
+    private TextField commentsEditField;
+
 
     @FXML
     protected void load() {
@@ -76,25 +104,42 @@ public class MainController implements Initializable {
         return listByCriteria;
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        //wyświetlanie danych po kliknięciu w wiersz tabeli
+    public void rowClickEvent() {
         tableView.setOnMouseClicked(event -> {
             if (event.getClickCount() == 1) {
                 Code selectedItem = tableView.getSelectionModel().getSelectedItem();
                 if (selectedItem != null) {
-                    System.out.println(selectedItem.getLocationList());
                     tableView.getItems().setAll(selectedItem);
+
+                    List<Location> locationList = selectedItem.getLocationList();
+                    locationTable.getItems().setAll(locationList);
+
+                    postCodeEditField.setText(selectedItem.getPostCode());
+                    adressEditField.setText(selectedItem.getAdress());
+                    placeEditField.setText(selectedItem.getPlace());
+                    voivoshipEditField.setText(selectedItem.getPlace());
+                    countyEditField.setText(selectedItem.getCounty());
                 }
             }
         });
+    }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        //wyświetlanie danych po kliknięciu w wiersz tabeli
+        rowClickEvent();
         try {
             codeDAO = new CodeDAO();
             showCodes();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        locationTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        locationId.setCellValueFactory(new PropertyValueFactory<Location, Long>("id"));
+        name.setCellValueFactory(new PropertyValueFactory<Location, String>("name"));
+        description.setCellValueFactory(new PropertyValueFactory<Location, String>("description"));
+        codeId.setCellValueFactory(new PropertyValueFactory<Location, Long>("code_id"));
+
 
         tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         id.setCellValueFactory(new PropertyValueFactory<>("id"));

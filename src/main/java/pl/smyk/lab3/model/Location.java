@@ -17,7 +17,7 @@ public class Location {
     private String name;
     @Column(name = "description")
     private String description;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "code_id")
     private Code code;
 }
