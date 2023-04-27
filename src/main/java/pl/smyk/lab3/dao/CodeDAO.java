@@ -89,13 +89,22 @@ public class CodeDAO {
     public void delete(Long id) {
         Session session = sessionFactory.openSession();
         Transaction transaction = null;
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         try {
             transaction = session.beginTransaction();
             Code entityToDelete = session.get(Code.class, id);
             session.delete(entityToDelete);
             transaction.commit();
+
+            alert.setTitle("Succes!");
+            alert.setContentText("Rekord has been succesful deleted");
+            alert.show();
         } catch (HibernateException e) {
             if (transaction != null) transaction.rollback();
+            alert.setTitle("Error!");
+            alert.setAlertType(Alert.AlertType.ERROR);
+            alert.setContentText(e.getMessage());
+            alert.show();
             e.printStackTrace();
         } finally {
             session.close();
@@ -105,6 +114,7 @@ public class CodeDAO {
     public void update(Long id, String postCode, String adress, String place, String voivoship, String county, String comments) {
         Session session = sessionFactory.openSession();
         Transaction transaction = null;
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         try {
             transaction = session.beginTransaction();
             Code codeToUpdate = session.get(Code.class, id);
@@ -116,8 +126,16 @@ public class CodeDAO {
             codeToUpdate.setComments(comments);
             session.update(codeToUpdate);
             transaction.commit();
+
+            alert.setTitle("Succes!");
+            alert.setContentText("Record has benn succesful updated");
+            alert.show();
         } catch (HibernateException e) {
             if (transaction != null) transaction.rollback();
+            alert.setTitle("Error!");
+            alert.setAlertType(Alert.AlertType.ERROR);
+            alert.setContentText(e.getMessage());
+            alert.show();
             e.printStackTrace();
         } finally {
             session.close();
